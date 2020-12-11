@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace AgendaBeca
 
 				RecebeDadosEChamaAFuncao(opcao);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				Console.Clear();
 
@@ -129,6 +130,7 @@ namespace AgendaBeca
 			{
 				agenda.Add(pessoa);
 				Console.WriteLine($"\r\n{nome} armazenado(a) na agenda!");
+				AdicionaPessoaNoTxt(pessoa);
 			}
 			else
 			{
@@ -170,6 +172,22 @@ namespace AgendaBeca
 			Console.Clear();
 			Pessoa pessoa = agenda[index - 1];
 			Console.WriteLine(pessoa.ToString());
+
+		}
+
+		static void AdicionaPessoaNoTxt(Pessoa pessoa)
+		{
+			string fileName = @"C:\Temp\Agenda.txt";
+			
+			using (StreamWriter sw = File.AppendText(fileName))
+			{
+				sw.WriteLine(pessoa.ToString());
+			}
+			
+		}
+
+		static void RemovePessoaNoTxt(Pessoa pesso)
+		{
 
 		}
 	}
