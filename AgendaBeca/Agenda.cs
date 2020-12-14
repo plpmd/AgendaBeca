@@ -33,7 +33,7 @@ namespace AgendaBeca
 			Console.WriteLine("\r\nArmazenar pessoa na agenda    [1]");
 			Console.WriteLine("\r\nRemover pessoa da agenda      [2]");
 			Console.WriteLine("\r\nBuscar pessoa na agenda       [3]");
-			Console.WriteLine("\r\nImprimir pessoa pelo ínidice  [4]");
+			Console.WriteLine("\r\nImprimir pessoa pelo índice  [4]");
 			Console.WriteLine("\r\nImprimir toda a agenda        [5]");
 			Console.WriteLine("\r\nSair                          [6]");
 			try
@@ -125,9 +125,9 @@ namespace AgendaBeca
 		static void ArmazenaPessoa(string nome, int idade, float altura)
 		{
 			Console.Clear();
-			Pessoa pessoa = new Pessoa(nome, idade, altura);
 			if (agenda.Count < 10)
 			{
+				Pessoa pessoa = new Pessoa(nome, idade, altura);
 				agenda.Add(pessoa);
 				Console.WriteLine($"\r\n{nome} armazenado(a) na agenda!");
 				AdicionaPessoaNoTxt(pessoa);
@@ -144,6 +144,7 @@ namespace AgendaBeca
 			Console.Clear();
 			var pessoaRemovida = agenda.Single(pessoa => pessoa.Nome == nome);
 			agenda.Remove(pessoaRemovida);
+			RemovePessoaNoTxt(pessoaRemovida);
 			Console.WriteLine($"\r\n{nome} foi removido(a) da agenda.");
 
 		}
@@ -186,9 +187,51 @@ namespace AgendaBeca
 			
 		}
 
-		static void RemovePessoaNoTxt(Pessoa pesso)
+		static void RemovePessoaNoTxt(Pessoa pessoa)
 		{
+			string username = pessoa.Nome;
+			string fileName = @"C:\temp\agenda.txt";
+			Boolean encontrado = false;
+			List<string> newLines = new List<string>();
+			string[] allLines = File.ReadAllLines(fileName);
+			foreach (string line in allLines)
+			{
+				string[] splitedLine = line.Split(',');
+				if (splitedLine[0] == $"Nome: {username}")
+				{
+					string rightLine = line;
+					Console.WriteLine($"\r\nUsuário encontrado:");
+					Console.WriteLine(rightLine);
+
+					Console.ReadLine();
+					encontrado = true;
+				}
+				else
+				{
+					newLines.Add(line);
+				}
+			}
+
+			if (encontrado)
+			{
+				File.WriteAllText(fileName, String.Empty);
+
+				using (StreamWriter sw = File.AppendText(fileName))
+				{
+					foreach (string line in newLines)
+					{
+						sw.WriteLine(line);
+					}
+				}
+				Console.WriteLine("Deleção efetuada com sucesso");
+			}
+			else
+			{
+				Console.WriteLine("Usuário não encontrado!");
+				Console.ReadLine();
+			}
 
 		}
+
 	}
 }

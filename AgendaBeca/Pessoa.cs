@@ -1,33 +1,31 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace AgendaBeca
 {
 	class Pessoa
 	{
-		private string nome;
-		private int idade;
-		private float altura;
-		public string Nome { get => nome; private set => nome = value; }
 
-		public float Altura { get => altura; private set => altura = value; }
+		private int id = 0;
+		public string Nome { get ; private set ; }
 
-		public int Idade { get => idade; private set => idade = value; }
+		public float Altura { get; private set ; }
 
-		//private DateTime DataDeNascimento { get; set ; }	
+		public int Idade { get; private set; }
 
 
-		//public int AchaIdade()
-		//{
-		//	DateTime dataAtual = DateTime.Today;
-		//	return dataAtual.Year - DataDeNascimento.Year;
-		//}
+
 
 		public Pessoa(string nome, int idade, float altura)
 		{
 			Nome = nome;
 			Altura = altura;
 			Idade = idade;
+			
 		}
+
+		
+
 		public override string ToString()
 		{
 			return $"Nome: {Nome}, Idade: {Idade} anos, Altura: {Altura.ToString("F2", CultureInfo.InvariantCulture)}";
